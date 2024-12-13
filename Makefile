@@ -1,6 +1,7 @@
 
 CC = g++
-CFLAGS = -Wall -Iinclude
+# CFLAGS = -Wall -Iinclude
+CFLAGS = -Wall -fopenmp -Iinclude
 
 SRC_DIR = src
 INC_DIR = include
