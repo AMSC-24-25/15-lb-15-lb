@@ -67,7 +67,7 @@ int main(){
     // gettimeofday(&t2, NULL);
     // etime = (t2.tv_sec - t1.tv_sec) * 1000 + (t2.tv_usec - t1.tv_usec) / 1000;
     // etime = etime / 1000;
-    // printf("Serial done, took %f sec. Verification...", etime);
+    // printf("Serial done, took %f sec.", etime);
    
 
 
@@ -79,7 +79,7 @@ int main(){
     gettimeofday(&t2, NULL);
     etime = (t2.tv_sec - t1.tv_sec) * 1000 + (t2.tv_usec - t1.tv_usec) / 1000;
     etime = etime / 1000;
-    printf("Parallel done, took %f sec. Verification...", etime);
+    printf("Parallel done, took %f sec.", etime);
 
     /*
     for (int i = 0; i < Nx; i++){
