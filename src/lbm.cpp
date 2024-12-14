@@ -12,21 +12,7 @@
 #include <sys/time.h>
 #include "../include/lbm_params.hpp"
 #include "../include/function.hpp"
-
-void saveToCSV(const std::string& filename, int Nx, int Ny, 
-               const std::vector<double>& rho, 
-               const std::vector<double>& ux, 
-               const std::vector<double>& uy) {
-    std::ofstream file(filename);
-    file << "x,y,rho,ux,uy\n";
-    for (int j = 0; j < Ny; ++j) {
-        for (int i = 0; i < Nx; ++i) {
-            int idx = j * Nx + i;
-            file << i << "," << j << "," << rho[idx] << "," << ux[idx] << "," << uy[idx] << "\n";
-        }
-    }
-    file.close();
-}
+#include "../include/Ibm_3D_params.hpp"
 
 int main(){
 
@@ -73,13 +59,13 @@ int main(){
 
 
     gettimeofday(&t1, NULL);
-    for (int i = 0; i < 10000; i++){
+    for (int i = 0; i < 1000; i++){
         D2Q9_parallel(f, rho, ux, uy, f_eq);
     }
     gettimeofday(&t2, NULL);
     etime = (t2.tv_sec - t1.tv_sec) * 1000 + (t2.tv_usec - t1.tv_usec) / 1000;
     etime = etime / 1000;
-    printf("Parallel done, took %f sec.", etime);
+    printf("Parallel done, took %f sec.\n", etime);
 
     /*
     for (int i = 0; i < Nx; i++){
@@ -92,7 +78,34 @@ int main(){
         std::cout << std::endl;
     }*/
 
-    saveToCSV("lbm_results.csv", Nx, Ny, rho, ux, uy);
+    saveToCSV_D2Q9("lbm_results.csv", Nx, Ny, rho, ux, uy);
+
+
+
+    // Velocity distribution function
+    std::vector<double> f_3D(D3Q19::Nx * D3Q19::Ny * D3Q19::Nz * D3Q19::Q, 0.0);
+    // Density
+    std::vector<double> rho_3D(D3Q19::Nx * D3Q19::Ny * D3Q19::Nz, 1.0);
+    // Velocity in x-direction
+    std::vector<double> ux_3D(D3Q19::Nx * D3Q19::Ny * D3Q19::Nz, 0.0);
+    // Velocity in y-direction
+    std::vector<double> uy_3D(D3Q19::Nx * D3Q19::Ny * D3Q19::Nz, 0.0);
+    // Velocity in z-direction
+    std::vector<double> uz_3D(D3Q19::Nx * D3Q19::Ny * D3Q19::Nz, 0.0);
+    // Local equilibrium distribution function
+    std::vector<double> f_eq_3D(D3Q19::Nx * D3Q19::Ny * D3Q19::Nz * D3Q19::Q, 0.0);
+
+    initialize_D3Q19(f_3D, rho_3D, ux_3D, uy_3D, uz_3D);
+    gettimeofday(&t1, NULL);
+    for (int t = 0; t < 1000; t++) {
+        D3Q19_parallel(f_3D, rho_3D, ux_3D, uy_3D, uz_3D, f_eq_3D);
+        //std::cout << "Step " << t << " completed." << std::endl;
+    }
+    gettimeofday(&t2, NULL);
+    etime = (t2.tv_sec - t1.tv_sec) * 1000 + (t2.tv_usec - t1.tv_usec) / 1000;
+    etime = etime / 1000;
+    printf("Parallel_3D done, took %f sec.\n", etime);
+    saveToCSV_D3Q19("lbm_results_3D.csv", rho_3D, ux_3D, uy_3D, uz_3D);
 
     return 0;
 }

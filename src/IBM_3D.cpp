@@ -11,6 +11,9 @@
 #include <string>
 #include <sys/time.h>
 #include "../include/Ibm_3D_params.hpp"
+#include "../include/function.hpp"
+
+using namespace D3Q19;
 
 
 void initialize_D3Q19(std::vector<double>& f, std::vector<double>& rho,
@@ -114,58 +117,5 @@ void D3Q19_parallel(std::vector<double>& f, std::vector<double>& rho,
             }
         }
     }
-
-}
-
-void saveToCSV(const std::string& filename, const std::vector<double>& rho,
-               const std::vector<double>& ux, const std::vector<double>& uy,
-               const std::vector<double>& uz) {
-    std::ofstream file(filename);
-    file << "x,y,z,rho,ux,uy,uz\n";
-    for (int z = 0; z < Nz; z++) {
-        for (int y = 0; y < Ny; y++) {
-            for (int x = 0; x < Nx; x++) {
-                int idx = idx_D3Q19(x, y, z, 0, Nx, Ny, Nz);
-                file << x << "," << y << "," << z << ","
-                     << rho[idx] << "," << ux[idx] << ","
-                     << uy[idx] << "," << uz[idx] << "\n";
-            }
-        }
-    }
-    file.close();
-}
-int main(){
-
-    struct timeval t1, t2;
-    double etime;
-
-    
-    // Velocity distribution function
-    std::vector<double> f(Nx * Ny * Nz * Q, 0.0);
-    // Density
-    std::vector<double> rho(Nx * Ny * Nz, 1.0);
-    // Velocity in x-direction
-    std::vector<double> ux(Nx * Ny * Nz, 0.0);
-    // Velocity in y-direction
-    std::vector<double> uy(Nx * Ny * Nz, 0.0);
-    // Velocity in z-direction
-    std::vector<double> uz(Nx * Ny * Nz, 0.0);
-    // Local equilibrium distribution function
-    std::vector<double> f_eq(Nx * Ny * Nz * Q, 0.0);
-
-    initialize_D3Q19(f, rho, ux, uy, uz);
-    gettimeofday(&t1, NULL);
-    for (int t = 0; t < 1000; t++) {
-        D3Q19_parallel(f, rho, ux, uy, uz, f_eq);
-        std::cout << "Step " << t << " completed." << std::endl;
-    }
-    gettimeofday(&t2, NULL);
-    etime = (t2.tv_sec - t1.tv_sec) * 1000 + (t2.tv_usec - t1.tv_usec) / 1000;
-    etime = etime / 1000;
-    printf("Parallel_3D done, took %f sec.", etime);
-    saveToCSV("lbm_results_3D.csv", rho, ux, uy, uz);
-   
-
-
 
 }
