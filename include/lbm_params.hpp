@@ -1,5 +1,3 @@
-#include <cmath>
-
 /*  Used to calculate the index of D2Q9 index
     eg: f[idx_D2Q9(x, y, i, Nx)] = 1.0; 
     (x, y) means the coordinate of grid points
