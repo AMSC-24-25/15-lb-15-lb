@@ -29,7 +29,7 @@ void D2Q9_parallel(std::vector<double>& f, std::vector<double>& rho, std::vector
             for (int k = 0; k < 9; k++){
                 cu = c_D2Q9[k][0] * ux[idx_D2Q9(i, j, Nx)] + c_D2Q9[k][1] * uy[idx_D2Q9(i, j, Nx)];
                 uSqr = ux[idx_D2Q9(i, j, Nx)] * ux[idx_D2Q9(i, j, Nx)] + uy[idx_D2Q9(i, j, Nx)] * uy[idx_D2Q9(i, j, Nx)];
-                f_eq[idx_D2Q9(i, j, k, Nx)] = w_D2Q9[k] * rho[idx_D2Q9(i, j, Nx)] * (1.0 + 3.0 * cu + 4.5 * cu * cu - 1.5 * uSqr);
+                f_eq[idx_D2Q9(i, j, k, Nx)] = w_D2Q9[k] * rho[idx_D2Q9(i, j, Nx)] * (1.0 + cu / c_s_square + cu * cu / (2 * c_s_square * c_s_square) - uSqr / (2 * c_s_square));
                 f_temp[idx_D2Q9(i, j, k, Nx)] = (1.0 - 1.0 / tau) * f[idx_D2Q9(i, j, k, Nx)] + (1.0 / tau) * f_eq[idx_D2Q9(i, j, k, Nx)];
             }        
         }
