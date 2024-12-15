@@ -1,3 +1,4 @@
+#include <cmath>
 
 /*  Used to calculate the index of D2Q9 index
     eg: f[idx_D2Q9(x, y, i, Nx)] = 1.0; 
@@ -17,8 +18,12 @@ inline size_t idx_D2Q9(int x, int y, int Nx){
 
 constexpr int Nx = 100;
 constexpr int Ny = 100;
-constexpr double tau = 0.8;
-constexpr double U = 0.6;
+constexpr double c_s = 0.5773502692;
+constexpr double c_s_square = c_s * c_s;
+constexpr double nu = 0.0667;
+constexpr int Re = 100;
+constexpr double tau = nu / (c_s * c_s) + 0.5;
+constexpr double U = 0.5;
 
 /*
          c6   c2   c5
