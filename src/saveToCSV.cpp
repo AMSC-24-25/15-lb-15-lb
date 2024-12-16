@@ -26,10 +26,10 @@ void saveToCSV_D3Q19(const std::string& filename, const std::vector<double>& rho
                const std::vector<double>& uz) {
     std::ofstream file(filename);
     file << "x,y,z,rho,ux,uy,uz\n";
-    for (int z = 0; z < D3Q19::Nz; z++) {
-        for (int y = 0; y < D3Q19::Ny; y++) {
-            for (int x = 0; x < D3Q19::Nx; x++) {
-                int idx = idx_D3Q19(x, y, z, 0, D3Q19::Nx, D3Q19::Ny, D3Q19::Nz);
+    for (int z = 0; z < Nz; z++) {
+        for (int y = 0; y < Ny; y++) {
+            for (int x = 0; x < Nx; x++) {
+                int idx = (z * Ny + y) * Nx + x;
                 file << x << "," << y << "," << z << ","
                      << rho[idx] << "," << ux[idx] << ","
                      << uy[idx] << "," << uz[idx] << "\n";
