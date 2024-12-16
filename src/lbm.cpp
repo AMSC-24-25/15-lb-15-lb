@@ -46,6 +46,8 @@ int main(){
             }
         }
     }
+    //Compute the mass
+    double initialMass = computeMass_2D(rho);
 
     // gettimeofday(&t1, NULL);
     // for (int i = 0; i < 10000; i++){
@@ -62,6 +64,11 @@ int main(){
     gettimeofday(&t1, NULL);
     for (int i = 0; i < 10000; i++){
         D2Q9_parallel(f, rho, ux, uy, f_eq);
+        double currentMass = computeMass_2D(rho);
+        if (i % 100 == 0) {
+        std::cout << "Step " << i << ", Mass: " << currentMass 
+                      << ", Mass Difference: " << currentMass - initialMass << std::endl;
+        }
     }
     gettimeofday(&t2, NULL);
     etime = (t2.tv_sec - t1.tv_sec) * 1000 + (t2.tv_usec - t1.tv_usec) / 1000;
@@ -83,29 +90,39 @@ int main(){
 
 
 
-    // // Velocity distribution function
-    // std::vector<double> f_3D(D3Q19::Nx * D3Q19::Ny * D3Q19::Nz * D3Q19::Q, 0.0);
-    // // Density
-    // std::vector<double> rho_3D(D3Q19::Nx * D3Q19::Ny * D3Q19::Nz, 1.0);
-    // // Velocity in x-direction
-    // std::vector<double> ux_3D(D3Q19::Nx * D3Q19::Ny * D3Q19::Nz, 0.0);
-    // // Velocity in y-direction
-    // std::vector<double> uy_3D(D3Q19::Nx * D3Q19::Ny * D3Q19::Nz, 0.0);
-    // // Velocity in z-direction
-    // std::vector<double> uz_3D(D3Q19::Nx * D3Q19::Ny * D3Q19::Nz, 0.0);
-    // // Local equilibrium distribution function
-    // std::vector<double> f_eq_3D(D3Q19::Nx * D3Q19::Ny * D3Q19::Nz * D3Q19::Q, 0.0);
+   // Velocity distribution function
+    std::vector<double> f(Nx * Ny * Nz * Q, 0.0);
+    // Density
+    std::vector<double> rho(Nx * Ny * Nz, 0.0);
+    // Velocity in x-direction
+    std::vector<double> ux(Nx * Ny * Nz, 0.0);
+    // Velocity in y-direction
+    std::vector<double> uy(Nx * Ny * Nz, 0.0);
+    // Velocity in z-direction
+    std::vector<double> uz(Nx * Ny * Nz, 0.0);
+    // Local equilibrium distribution function
+    std::vector<double> f_eq(Nx * Ny * Nz * Q, 0.0);
 
-    // initialize_D3Q19(f_3D, rho_3D, ux_3D, uy_3D, uz_3D);
+
+
+    // initializeData(f, rho, ux, uy, uz);
+
+    // double initialMass = computeMass_3D(rho);
+    // std::cout << "Initial mass: " << initialMass << std::endl;
     // gettimeofday(&t1, NULL);
-    // for (int t = 0; t < 1000; t++) {
-    //     D3Q19_parallel(f_3D, rho_3D, ux_3D, uy_3D, uz_3D, f_eq_3D);
-    //     //std::cout << "Step " << t << " completed." << std::endl;
+    // for (int t = 0; t < 100; t++) {
+    //     D3Q19_parallel(f, rho, ux, uy, uz, f_eq);
+    //     std::cout << "Step " << t << " completed." << std::endl;
+    //     if (t % 100 == 0) {
+    //         double currentMass = computeMass_3D(rho);
+    //         std::cout << "Step " << t << ", Mass: " << currentMass 
+    //                   << ", Mass Difference: " << currentMass - initialMass << std::endl;
+    //     }
     // }
     // gettimeofday(&t2, NULL);
     // etime = (t2.tv_sec - t1.tv_sec) * 1000 + (t2.tv_usec - t1.tv_usec) / 1000;
     // etime = etime / 1000;
-    // printf("Parallel_3D done, took %f sec.\n", etime);
+    // printf("Parallel_3D done, took %f sec.", etime);
     // saveToCSV_D3Q19("lbm_results_3D.csv", rho_3D, ux_3D, uy_3D, uz_3D);
 
     return 0;
