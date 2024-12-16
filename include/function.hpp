@@ -3,13 +3,13 @@
 void D2Q9_serial(std::vector<double>& f, std::vector<double>& rho, std::vector<double>& ux, std::vector<double>& uy, std::vector<double>& f_eq);
 void D2Q9_parallel(std::vector<double>& f, std::vector<double>& rho, std::vector<double>& ux, std::vector<double>& uy, std::vector<double>& f_eq);
 
-void initialize_D3Q19(std::vector<double>& f, std::vector<double>& rho,
-                      std::vector<double>& ux, std::vector<double>& uy,
-                      std::vector<double>& uz);
+void initializeData(std::vector<double>& f, std::vector<double>& rho, std::vector<double>& ux, std::vector<double>& uy, std::vector<double>& uz);
 
-void D3Q19_parallel(std::vector<double>& f, std::vector<double>& rho,
-                    std::vector<double>& ux, std::vector<double>& uy,
-                    std::vector<double>& uz, std::vector<double>& f_eq);
+void D3Q19_parallel(std::vector<double>& f, std::vector<double>& rho, std::vector<double>& ux, std::vector<double>& uy, std::vector<double>& uz, std::vector<double>& f_eq);
+
+double computeMass_2D(const std::vector<double>& rho);
+
+double computeMass_3D(const std::vector<double>& rho);
 
 
 
