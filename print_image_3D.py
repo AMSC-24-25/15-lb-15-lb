@@ -4,25 +4,41 @@ import matplotlib.pyplot as plt
 
 data = pd.read_csv("lbm_results_3D.csv")
 
-x, y, z, rho, ux, uy, uz = data['x'], data['y'], data['z'], data['rho'], data['ux'], data['uy'], data['uz']
+Nx, Ny, Nz = 100, 100, 100
 
-# 选切片
-z_middle = int(max(z) / 3)
-mask = (z == z_middle)
+# 提取数据
+rho = data['rho'].values.reshape(Nz, Ny, Nx)   # Density
+ux = data['ux'].values.reshape(Nz, Ny, Nx)     # x 
+uy = data['uy'].values.reshape(Nz, Ny, Nx)     # y 
+uz = data['uz'].values.reshape(Nz, Ny, Nx)     # z 
 
-# 提取切片数据
-x_slice = x[mask]
-y_slice = y[mask]
-rho_slice = rho[mask]
-speed_slice = np.sqrt(ux[mask]**2 + uy[mask]**2 + uz[mask]**2)
+# 计算速度大小 
+speed = np.sqrt(ux**2 + uy**2 + uz**2)
 
-# 绘制速度大小切片
+# 选择切片 
+z_slice = 50
+rho_slice = rho[z_slice, :, :]     
+speed_slice = speed[z_slice, :, :] 
+
+# Density
 plt.figure(figsize=(8, 6))
-plt.scatter(x_slice, y_slice, c=speed_slice, cmap='viridis')
-plt.colorbar(label="Speed |u|")
-plt.xlabel("X")
-plt.ylabel("Y")
-plt.savefig('Speed_3D.png')  
+plt.imshow(rho_slice, cmap='viridis', origin='lower')
+plt.colorbar(label='Density')
+tile_Density='Density Field (3D) '+'z_slice = '+str(z_slice)
+plt.title(tile_Density)
+plt.xlabel('X')
+plt.ylabel('Y')
+plt.savefig('Density_Field.png')
 plt.close()
 
-#运行 python print_image_3D.py 
+# Speed
+plt.figure(figsize=(8, 6))
+plt.imshow(speed_slice, cmap='plasma', origin='lower')
+plt.colorbar(label='Speed')
+tile_speed='Speed Field (3D) '+'z_slice = '+str(z_slice)
+plt.title(tile_speed)
+plt.xlabel('X')
+plt.ylabel('Y')
+plt.savefig('Speed_Field.png')
+plt.close()
+
