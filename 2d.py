@@ -48,14 +48,16 @@ for iteration in range(start_iter, end_iter + 1, step):
         speed = np.sqrt(ux ** 2 + uy ** 2)
 
         # 绘制速度场
+        plt.figure(figsize=(12, 8))  # 设置图像大小
         plt.imshow(speed, cmap='viridis', origin='lower')
-        plt.colorbar(label='Speed')
+        plt.colorbar(label='Speed', shrink=0.8)  # 调整色条大小
         plt.title(f'Speed Field (Iteration {iteration})')
         plt.axis('off')
+        plt.tight_layout()  # 自动调整布局
 
         # 保存图片，文件名包含迭代次数
         png_path = os.path.join(output_directory, f"Speed_{iteration:04d}.png")
-        plt.savefig(png_path, bbox_inches='tight')
+        plt.savefig(png_path, bbox_inches='tight', pad_inches=0.5, dpi=300)  # 增加边距和分辨率
         plt.close()
 
         # 将图片路径加入列表
