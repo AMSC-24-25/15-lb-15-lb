@@ -83,7 +83,7 @@ The project is organized as follows:
 
 ## Strong and weak scalability test
 
-The following table contains the execution times recorded on a pc with 8 cores and 16 threads. The simulation with cavity size 100 * 100 has been run for 10'000 iterations.
+The following table contains the execution times recorded on a pc with 8 cores and 16 threads. The simulation with cavity size 100 * 100 has been run for 10000 iterations.
 
 | Threads | Time (s) | Speedup | Efficiency |
 |---------|----------|---------|------------|
@@ -104,7 +104,7 @@ The following table contains the execution times recorded on a pc with 8 cores a
 | 15      | 6.937    | 5.353   | 0.357      |
 | 16      | 6.99     | 5.312   | 0.332      |
 
-The following table contains the execution times recorded on a pc with 8 cores and 16 threads. The simulation has been run for 1'000 iterations with ~20'000 lattice points per thread.
+The following table contains the execution times recorded on a pc with 8 cores and 16 threads. The simulation has been run for 1000 iterations with 20000 lattice points per thread.
 
 | Cavity Size | Threads | Time (s) | Efficiency |
 |-------------|---------|----------|------------|
