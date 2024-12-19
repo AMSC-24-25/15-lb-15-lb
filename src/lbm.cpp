@@ -37,7 +37,7 @@ int main(){
 
     lbm_parallel.save_to_CSV("lbm_results.csv");
 
-    U = 0.1;
+    U = 0.3;
     LBM_3D lbm_3D(Nx, Ny, Nz, U, rho0);
     lbm_3D.initialize();
 

@@ -1,4 +1,5 @@
 #include <fstream>
+#include <filesystem>
 #include <iostream>
 #include <omp.h>
 #include <string>
@@ -178,7 +179,8 @@ void LBM_2D::D2Q9_parallel_iterate(int step) {
 }
 
 void LBM_2D::save_to_CSV(const std::string &filename) const {
-    std::ofstream file(filename);
+    std::filesystem::create_directories("result");
+    std::ofstream file("result/" + filename);
     file << "x,y,rho,ux,uy\n";
     for (int j = 0; j < Ny; ++j) {
         for (int i = 0; i < Nx; ++i) {
