@@ -4,10 +4,30 @@
 
 This project implements lattice Boltzmann method for lid-driven cavity problem with both 2D (D2Q9) and 3D (D3Q19) models. For the 2D model, we implemented both a serial version and a parallel version based on OpenMP. For the 3D model, we implemented a parallel version based on OpenMP and another parallel version based on CUDA.
 
+## LBM implementation overview
+1. **Initialization**:
+   - The distribution function (`f`) is initialized based on equilibrium conditions.
+   - Velocity and density fields are set to their initial values.
+
+2. **Collision Step**:
+   - The equilibrium distribution function is computed for each lattice point.
+   - The collision process uses the BGK (Bhatnagar-Gross-Krook) approximation, where the distribution function is relaxed toward equilibrium based on a relaxation time parameter (`tau`).
+
+3. **Streaming Step**:
+   - Distribution functions are propagated to neighboring lattice nodes according to their discrete velocities.
+
+4. **Boundary Conditions**:
+   - **Top Boundary (Lid)**: A constant velocity is enforced to drive the flow.
+   - **Stationary Walls**: Bounce-back rules are applied to ensure no-slip conditions.
+
+5. **Output**:
+   - Macroscopic quantities such as density (`ρ`) and velocity (`u_x, u_y`) are computed from the distribution function.
+   - Results are saved as CSV files for visualization and further analysis.
+
 ## Prerequisites
 
 - A modern C++ compiler that supports C++17 or later
-- OpemMP
+- OpenMP
 - Python 3.7+ with numpy, matplotlib, scikit-image and pandas
 - Goodle colab (for CUDA execution)
 
@@ -132,26 +152,6 @@ The table presents the execution times measured on a computer equipped with 8 co
 
 ### The 3D simulation runs for 100 iterations
 ![3D with iteration = 100](./picture/3D_Speed_Isosurface.png)
-
-## LBM implementation overview
-1. **Initialization**:
-   - The distribution function (`f`) is initialized based on equilibrium conditions.
-   - Velocity and density fields are set to their initial values.
-
-2. **Collision Step**:
-   - The equilibrium distribution function is computed for each lattice point.
-   - The collision process uses the BGK (Bhatnagar-Gross-Krook) approximation, where the distribution function is relaxed toward equilibrium based on a relaxation time parameter (`tau`).
-
-3. **Streaming Step**:
-   - Distribution functions are propagated to neighboring lattice nodes according to their discrete velocities.
-
-4. **Boundary Conditions**:
-   - **Top Boundary (Lid)**: A constant velocity is enforced to drive the flow.
-   - **Stationary Walls**: Bounce-back rules are applied to ensure no-slip conditions.
-
-5. **Output**:
-   - Macroscopic quantities such as density (`ρ`) and velocity (`u_x, u_y`) are computed from the distribution function.
-   - Results are saved as CSV files for visualization and further analysis.
 
 ## CUDA version
 This part of the project demonstrates an implementation of the Lattice Boltzmann Method using CUDA for parallelism. The notebook provides a detailed walkthrough of the algorithm, including CUDA kernel definitions and optimizations.
