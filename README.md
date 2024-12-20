@@ -146,12 +146,16 @@ The table presents the execution times measured on a computer equipped with 8 co
 | 400x400     | 16      | 51.457   | 0.39       |
 
 ## Result
+<div style="display: flex; justify-content: space-around;">
+    <img src="./picture/Time, Speedup, And Efficiency Vs Threads.png" alt="Time, Speedup, And Efficiency Vs Threads" width="800"/>
+    <img src="./picture/Time And Efficiency Vs Threads.png" alt="Time And Efficiency Vs Threads" width="800"/>
+</div>
 
 ### The 2D simulation runs for 10,000 iterations
-<img src="./picture/speed_evolution.gif" alt="2D with iteration = 10000" width="300"/>
+<img src="./picture/speed_evolution.gif" alt="2D with iteration = 10000" width="800"/>
 
 ### The 3D simulation runs for 100 iterations
-<img src="./picture/3D_Speed_Isosurface.png" alt="3D with iteration = 100" width="300"/>
+<img src="./picture/3D_Speed_Isosurface.png" alt="3D with iteration = 100" width="800"/>
 
 ## CUDA version
 This part of the project demonstrates an implementation of the Lattice Boltzmann Method using CUDA for parallelism. The notebook provides a detailed walkthrough of the algorithm, including CUDA kernel definitions and optimizations.
