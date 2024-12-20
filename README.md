@@ -148,7 +148,7 @@ The table presents the execution times measured on a computer equipped with 8 co
 ## Result
 
 ### The 2D simulation runs for 10,000 iterations
-![2D with iteration = 10000](./picture/Speed_evolution.gif)
+![2D with iteration = 10000](./picture/speed_evolution.gif)
 
 ### The 3D simulation runs for 100 iterations
 ![3D with iteration = 100](./picture/3D_Speed_Isosurface.png)
