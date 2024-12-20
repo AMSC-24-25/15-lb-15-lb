@@ -104,6 +104,7 @@ void LBM_2D::D2Q9_parallel_iterate(int step) {
     double f_eq;
     int num_threads = omp_get_max_threads();
     omp_set_num_threads(num_threads);
+
     for (int s = 0; s < step; s++) {
         // Collision
         #pragma omp parallel for private(cu, uSqr, f_eq) schedule(static) collapse(2)
@@ -131,7 +132,6 @@ void LBM_2D::D2Q9_parallel_iterate(int step) {
         }
 
         for (int j = 0; j < Ny - 1; j++) {
-
             // Left boundary
             f[idx_D2Q9(0, j, 5, Nx)] = f[idx_D2Q9(0, j, 7, Nx)];
             f[idx_D2Q9(0, j, 1, Nx)] = f[idx_D2Q9(0, j, 3, Nx)];
@@ -160,7 +160,6 @@ void LBM_2D::D2Q9_parallel_iterate(int step) {
         }
 
         #pragma omp parallel for schedule(static) collapse(2)
-        // Combine two nested loops to improve load balancing
         for (int i = 0; i < Nx; i++) {
             for (int j = 0; j < Ny; j++) {
                 rho[idx_D2Q9(i, j, Nx)] = 0;
@@ -173,6 +172,28 @@ void LBM_2D::D2Q9_parallel_iterate(int step) {
                 }
                 ux[idx_D2Q9(i, j, Nx)] /= rho[idx_D2Q9(i, j, Nx)];
                 uy[idx_D2Q9(i, j, Nx)] /= rho[idx_D2Q9(i, j, Nx)];
+            }
+        }
+
+        // Output and save intermediate results every 100 iterations
+        if (s % 100 == 0) {
+            double currentMass = 0.0;
+
+            // Parallel reduction to compute total mass
+            #pragma omp parallel for reduction(+:currentMass)
+            for (int i = 0; i < Nx; i++) {
+                for (int j = 0; j < Ny; j++) {
+                    currentMass += rho[idx_D2Q9(i, j, Nx)];
+                }
+            }
+
+            // Print current step and mass
+            #pragma omp single
+            {
+                std::cout << "Step " << s << ", Mass: " << currentMass << std::endl;
+
+                // Save to CSV
+                save_to_CSV("intermediate_step_" + std::to_string(s) + ".csv");
             }
         }
     }
