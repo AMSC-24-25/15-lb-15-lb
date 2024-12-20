@@ -124,9 +124,11 @@ The table provides the execution times obtained on a computer with 8 cores and 1
 | 15      | 6.937    | 5.353   | 0.357      |
 | 16      | 6.99     | 5.312   | 0.332      |
 
+<img src="./picture/Time, Speedup, And Efficiency Vs Threads.png" alt="Time, Speedup, And Efficiency Vs Threads" width="800"/>
+
 The table presents the execution times measured on a computer equipped with 8 cores and 16 threads. The simulation was performed for 5000 iterations, with each thread processing 10,000 lattice points.
 
-| Cavity Size | Threads | Time (s) | Efficiency |
+|    Size     | Threads | Time (s) | Efficiency |
 |-------------|---------|----------|------------|
 | 100x100     | 1       | 19.813   | 1          |
 | 141x141     | 2       | 21.991   | 0.90       |
@@ -145,12 +147,9 @@ The table presents the execution times measured on a computer equipped with 8 co
 | 387x387     | 15      | 54.101   | 0.37       |
 | 400x400     | 16      | 51.457   | 0.39       |
 
-## Result
-<div style="display: flex; justify-content: space-around;">
-    <img src="./picture/Time, Speedup, And Efficiency Vs Threads.png" alt="Time, Speedup, And Efficiency Vs Threads" width="800"/>
-    <img src="./picture/Time And Efficiency Vs Threads.png" alt="Time And Efficiency Vs Threads" width="800"/>
-</div>
+<img src="./picture/Time And Efficiency Vs Threads.png" alt="Time And Efficiency Vs Threads" width="800"/>
 
+## Result
 ### The 2D simulation runs for 10,000 iterations
 <img src="./picture/speed_evolution.gif" alt="2D with iteration = 10000" width="800"/>
 
